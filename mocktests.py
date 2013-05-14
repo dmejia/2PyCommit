@@ -6,6 +6,7 @@ import time
 import testingbase
 from replica import Replica
 
+# Suite of tests that used at mock version of the master to verify corner failure cases
 class MockTests(testingbase.TestingBase):
 	def setUp(self):
 		self._initialize()
@@ -89,30 +90,6 @@ class MockTests(testingbase.TestingBase):
 		self.assertFalse(allYes)
 
 		self.assertEqual(None, self.masterProxy.get(key))
-
-	def test_WhenAReplicaHasntReceivedCommitMessage_ItDoesntServeGetRequestsOnThatKey(self):
-		key = "somekey"
-		value = "somevalue"
-
-		tid = self.masterProxy.startPut(key, value)
-		self.masterProxy.execute(tid)
-		self.masterProxy.requestVotes(tid)
-
-		#Fake commit that didn't get to replica2
-		self.masterProxy.logCommit(tid)
-		self.replica1Proxy.commit(tid)
-
-		#Kill only replica that knows the value was commited
-		self._killReplica1()
-
-		#The only replica is uncertain on the value of that key
-		with self.assertRaises(Exception):
-			self.masterProxy.get(key)
-
-	
-		self._startReplica1()	
-		self.assertEqual(value, self.masterProxy.get(key))
-
 
 	def test_WhenReplicasTimeoutWaitingForVoteRequest_TheyDecideAbort(self):
 		key = "somekey"

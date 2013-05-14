@@ -1,5 +1,6 @@
 import master
 
+# Mock class that externds the master and is used for testing purposes
 class MasterMock(master.Master):
 	def getBlah(self):
 		return self.get("blah")

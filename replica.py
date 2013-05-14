@@ -66,7 +66,6 @@ class Replica:
 			# after voting yes, the replica cannot take a decision anymore, and so after a timeout
 			# it needs to run a termination protocol (ask the master) to find about the outcome
 			self.__scheduleTerminateProtocol(transaction)
-			timer.start()
 			success = True
 		else:
 			print("Transaction not found, voting No")

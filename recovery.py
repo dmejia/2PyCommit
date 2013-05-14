@@ -1,6 +1,7 @@
 import threading
 from transactions import Transaction
 
+# Helper class that provides functionality for recovering masters and replicas after failure by using logs
 class RecoveryHelper:
 	@staticmethod
 	# Create transaciton log string out of a transaction obj

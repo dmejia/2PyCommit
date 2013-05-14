@@ -4,6 +4,8 @@ import threading
 import transactions
 import recovery
 
+# Master (aka coordinator) of the replicated key-value store
+# in charge of managing the 2-phase-commit protocol
 class Master:
 	def __init__(self, logFileName, replicaProxies):
 		self.replicaProxies = replicaProxies
